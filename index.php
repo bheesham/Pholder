@@ -29,15 +29,34 @@ $root = getcwd();
 
 
 // add code for directory changes here!
-
 // add code for sorting properties here!
 
-if ( $hand = opendir( $root ) ) {
-    while (false !== ($file = readdir($hand))) {
-       if ( is_dir( $file ) ) {
-			echo "Folder: $file \r\n";
+$sort_by = 'name';
+
+$folders = array();
+$files = array();
+
+$handle = opendir( $root )
+
+if ( $handle ) {
+	$forf = readdir( $hand );
+    while ( $forf !== false ) {
+       if ( is_dir( $forf ) ) {
+			switch ( $sort_by ) {
+				case 'name':
+				default:
+					$folders[ $forf ] = array();
+					break;
+			}
+			// set attributes here
 	   } else {
-			echo "File: $file \r\n";
+			switch ( $sort_by ) {
+				case 'name':
+				default:
+					$folders[ $forf ] = array();
+					break;
+			}
+			// set attributes here
 	   }
     }
 }
