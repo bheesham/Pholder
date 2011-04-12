@@ -23,10 +23,10 @@
 // Leave it blank if you want it to be public.
 $password = 'blah';
 
+// --- IMPORTANT ---
 // Do not ed... go ahead. Edit it.
 
 $root = getcwd();
-
 
 // add code for directory changes here!
 // add code for sorting properties here!
@@ -36,15 +36,16 @@ $sort_by = 'name';
 $folders = array();
 $files = array();
 
-$handle = opendir( $root )
+$handle = opendir( $root );
 
 if ( $handle ) {
 	$forf = readdir( $hand );
-    while ( $forf !== false ) {
+    while ( false !== $forf ) {
        if ( is_dir( $forf ) ) {
 			switch ( $sort_by ) {
 				case 'name':
 				default:
+					$index = $forf;
 					$folders[ $forf ] = array();
 					break;
 			}
@@ -53,11 +54,13 @@ if ( $handle ) {
 			switch ( $sort_by ) {
 				case 'name':
 				default:
-					$folders[ $forf ] = array();
+					$index = $forf;
+					$files[ $forf ] = array();
 					break;
 			}
 			// set attributes here
 	   }
     }
+} else {
+	$error = 'This folder could not be opened.';
 }
-?>
