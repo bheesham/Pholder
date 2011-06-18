@@ -1,0 +1,17 @@
+Copyright (C) 2011 Bheesham Persaud.
+License available in LICENSE.
+
+Instructions:
+	Upload index.php
+	DONE!
+
+Features:
+	File browser
+	Hotkey
+
+Hotkey:
+	<return>	-	Select a folder, hit <return>, be redirected.
+
+Coming soon:
+	Password protection
+	Actual commands
