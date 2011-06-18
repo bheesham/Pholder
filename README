@@ -10,7 +10,8 @@ Features:
 	Hotkey
 
 Hotkey:
-	<return>	-	Select a folder, hit <return>, be redirected.
+	<return>		-	Select a folder, hit <return>, be redirected.
+	<back space>	-	Go up a folder
 
 Coming soon:
 	Password protection
