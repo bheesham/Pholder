@@ -1,5 +1,6 @@
 <?php
 // Copyright (C) 2011 Bheesham Persaud.
+// License available in LICENSE.
 
 // request a resource
 if ( isset( $_GET['res'] ) ) {
@@ -15,8 +16,13 @@ if ( isset( $_GET['res'] ) ) {
 			echo "ul, p { margin: 0px; padding: 0px; } \r\n";
 			// jQuery Context Menu Plugin - http://abeautifulsite.net/blog/2008/09/jquery-context-menu-plugin/
 			echo base64_decode( "LyogR2VuZXJpYyBjb250ZXh0IG1lbnUgc3R5bGVzICovDQouY29udGV4dE1lbnUgew0KCXBvc2l0aW9uOiBhYnNvbHV0ZTsNCgl3aWR0aDogMTIwcHg7DQoJei1pbmRleDogOTk5OTk7DQoJYm9yZGVyOiBzb2xpZCAxcHggI0NDQzsNCgliYWNrZ3JvdW5kOiAjRUVFOw0KCXBhZGRpbmc6IDBweDsNCgltYXJnaW46IDBweDsNCglkaXNwbGF5OiBub25lOw0KfQ0KDQouY29udGV4dE1lbnUgTEkgew0KCWxpc3Qtc3R5bGU6IG5vbmU7DQoJcGFkZGluZzogMHB4Ow0KCW1hcmdpbjogMHB4Ow0KfQ0KDQouY29udGV4dE1lbnUgQSB7DQoJY29sb3I6ICMzMzM7DQoJdGV4dC1kZWNvcmF0aW9uOiBub25lOw0KCWRpc3BsYXk6IGJsb2NrOw0KCWxpbmUtaGVpZ2h0OiAyMHB4Ow0KCWhlaWdodDogMjBweDsNCgliYWNrZ3JvdW5kLXBvc2l0aW9uOiA2cHggY2VudGVyOw0KCWJhY2tncm91bmQtcmVwZWF0OiBuby1yZXBlYXQ7DQoJb3V0bGluZTogbm9uZTsNCglwYWRkaW5nOiAxcHggNXB4Ow0KCXBhZGRpbmctbGVmdDogMjhweDsNCn0NCg0KLmNvbnRleHRNZW51IExJLmhvdmVyIEEgew0KCWNvbG9yOiAjRkZGOw0KCWJhY2tncm91bmQtY29sb3I6ICMzMzk5RkY7DQp9DQoNCi5jb250ZXh0TWVudSBMSS5kaXNhYmxlZCBBIHsNCgljb2xvcjogI0FBQTsNCgljdXJzb3I6IGRlZmF1bHQ7DQp9DQoNCi5jb250ZXh0TWVudSBMSS5ob3Zlci5kaXNhYmxlZCBBIHsNCgliYWNrZ3JvdW5kLWNvbG9yOiB0cmFuc3BhcmVudDsNCn0NCg0KLmNvbnRleHRNZW51IExJLnNlcGFyYXRvciB7DQoJYm9yZGVyLXRvcDogc29saWQgMXB4ICNDQ0M7DQp9" );
-			// Icon CSS
-			echo base64_decode( "LyoNCglBZGRpbmcgSWNvbnMNCgkNCglZb3UgY2FuIGFkZCBpY29ucyB0byB0aGUgY29udGV4dCBtZW51IGJ5IGFkZGluZw0KCWNsYXNzZXMgdG8gdGhlIHJlc3BlY3RpdmUgTEkgZWxlbWVudChzKQ0KCQ0KCUV4YW1wbGU6DQoJCS5jb250ZXh0TWVudSBMSS5lZGl0IEEgeyBiYWNrZ3JvdW5kLWltYWdlOiB1cmwoaW1hZ2VzL3BhZ2Vfd2hpdGVfZWRpdC5wbmcpOyB9DQoqLw0KLmNvbnRleHRNZW51IExJLmVkaXQgQSB7IGJhY2tncm91bmQtaW1hZ2U6IHVybCg/cmVzPWVkaXQpOyB9DQouY29udGV4dE1lbnUgTEkuZGVsZXRlIEEgeyBiYWNrZ3JvdW5kLWltYWdlOiB1cmwoP3Jlcz1kZWxldGUpOyB9DQouY29udGV4dE1lbnUgTEkucGVybXMgQSB7IGJhY2tncm91bmQtaW1hZ2U6IHVybCg/cmVzPXBlcm1zKTsgfQ0KLmNvbnRleHRNZW51IExJLmN1dCBBIHsgYmFja2dyb3VuZC1pbWFnZTogdXJsKD9yZXM9Y3V0KTsgfQ0KLmNvbnRleHRNZW51IExJLmNvcHkgQSB7IGJhY2tncm91bmQtaW1hZ2U6IHVybCg/cmVzPWNvcHkpOyB9" );
+			// Icons for the Context Menu
+			echo ".contextMenu LI.edit A { background-image: url(?res=edit); } \r\n";
+			echo ".contextMenu LI.delete A { background-image: url(?res=delete); } \r\n";
+			echo ".contextMenu LI.perms A { background-image: url(?res=perms); } \r\n";
+			echo ".contextMenu LI.cut A { background-image: url(?res=cut); } \r\n";
+			echo ".contextMenu LI.copy A { background-image: url(?res=copy); } \r\n";
+			echo ".contextMenu LI.compress A { background-image: url(?res=compress); } \r\n";
 			echo "\r\n";
 			break;
 		case 'js':
@@ -51,6 +57,10 @@ if ( isset( $_GET['res'] ) ) {
 		case 'copy':
 			header( 'Content-Type: image/png' );
 			echo base64_decode( "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAADHSURBVCjPdZFNbsIwFAa/5B5FuQPCOQ9HQuqCq3SHUAtrrgFCSKQk8Y80XTjYJqiajRfj55GftNBKJtGoRiXSytlAZORzM1ckExjouHEm0LPdqHkTRnruXAgEPGpVq1JVCJ6RB3dOfHFEa7W5RzLx3kjPDse8ZxKisue9JwkByzevPQGZQnD8kHuunEvB43EcyD0dt/kEzzGdLD2/k9Ckb261zs9ZhiggVRO12jzN4Z5C+tQq90T+ETK20/J1tU2xeCOjpT7+APfbTaDnTb/mAAAAAElFTkSuQmCC" );
+			break;
+		case 'compress':
+			header( 'Content-Type: image/png' );
+			echo base64_decode( "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAKQSURBVDjLbZNNaJxVFIafe7/5KTPzpUloNK0tIsowCtbiQgRRQReudCMVqYrdiLgQ01UrWUgXXZQumoU2myyKii66dOFCEUo3IiL+VRMFHactYpsMmsy0mbnnx8X8tEn7wuHAudyH97zcG9wdgKWl9zNgl7vvrVar51T1PndHVQHDzBCRFGNhqd1ePXb06PF1gALAhbONF+7PanPtymtP9G2iVK3WmJjYibtjZuNupsWVlYtviaRTwABw4WzjEPDRVGMy/vt3QLpCu73G2toqZoKZE2Mkz3PyfBKxgKplDFUA3rz7wL5Y2lnigdrHiDhuRlaoYJslrv3cWb7cfehka/3BxUY93+EGqolbAU/tqz+K2V/MzFQAHZYQ4146v55v/NPd81UxL6uKQgyY2RgQB025fOUPCC9COAjhJVqt38BlcKpKb/M65kbq9YfB3nQAGOVSxqXWCXDBSZTLBWAAMDOKsYibYURE0naAMjOzC5gc2Pc0vDwApJTQGx3UDJHNLQ7GK1xq/Q7hFQivQjzMn82LY4CqhiwWw8BBQNW2OxBK5Yxm812whNNnx5YVtBBkoxICkLqYbcugt9Fh9+xj4/RHtblxA7EMVZsOYZC+qqMqWwBHfvr829OjgRNIWkIsIhb54cr+r7Ms+3Bqanr0GjHzm4AnDy8vAAujwfz83NTs7O7z3W7nYTOjH3uPp7RuWZYNHdhtDrZIVda/8+fPWa06nfWvfjJxdfFTEd2zvPzLZyn1CCHSrx954/UPWi8DC2H0G2/VM8ebzeceqd375fer/9WvnTgDVET0oLsWzJDmPe/lzx64K//ix43WHQH1t1fmgLkC/TNPy8lFM4vuWhGx6G72TXX+UAqVd4DT/wMfm3vSJoP5ygAAAABJRU5ErkJggg==" );
 			break;
 		case 'delete':
 			header( 'Content-Type: image/png' );
@@ -170,8 +180,8 @@ if ( $handle = opendir( $root_cd ) ) {
 					?>
 					<li class="folder <?php if ( $a == true ) { echo ' alt'; } ?>" id="folder[<?php echo $info[0]; ?>]">
 					<img src="?res=fo" alt="folder" class="ico" />
-						<input type="checkbox" name="folder[<?php echo $info[0]; ?>]" class="folder" />
-						<a href="?cd=<?php echo $info[1]; ?>">
+						<input type="checkbox" name="folder[<?php echo $info[0]; ?>]" class="chkfolder" />
+						<a href="?cd=<?php echo $info[1]; ?>" title="folder[<?php echo $info[0]; ?>]">
 							<?php echo $folder; ?></a> - 
 							<?php echo $info[2]; ?> - 
 							<?php echo date( "F d Y H:i:s.", $info[3] ); ?>
@@ -187,7 +197,7 @@ if ( $handle = opendir( $root_cd ) ) {
 					?>
 					<li class="file<?php if ( $a == true ) { echo ' alt'; } ?>" id="file[<?php echo $info[0]; ?>]">
 						<img src="?res=fi" alt="file" class="ico" />
-						<input type="checkbox" name="file[<?php echo $info[0]; ?>]" class="file" />
+						<input type="checkbox" name="file[<?php echo $info[0]; ?>]" class="chkfile" />
 						<?php echo $file; ?> - 
 						(<?php echo $info[1]; ?> KB) - 
 						<?php echo $info[2]; ?> - 
@@ -197,56 +207,87 @@ if ( $handle = opendir( $root_cd ) ) {
 			</ul>
 		</form>
 		<p><small>Copyright &copy; 2011 Bheesham Persaud. Icons by <a href="http://www.famfamfam.com/">famfamfam</a>. <a href="http://www.jquery.com">jQuery 1.4.2</a>. <a href="http://abeautifulsite.net/blog/2008/09/jquery-context-menu-plugin/">jQuery Context Menu Plugin</a>. <a href="https://github.com/jeresig/jquery.hotkeys">jQuery Hotkeys Plugin</a>.</small></p>
-		<ul id="file_menu" class="contextMenu">
-			<li class="perms">
+		<ul id="context_menu" class="contextMenu">
+			<li class="fboth perms">
 				<a href="#perms">Permissions</a>
 			</li>
-			<li class="edit">
+			<li class="ffile edit">
 				<a href="#edit">Edit</a>
 			</li>
-			<li class="cut separator">
-				<a href="#cut">Cut</a>
+			<li class="ffolder compress separator">
+				<a href="#compress">Compress</a>
 			</li>
-			<li class="copy">
-				<a href="#copy">Copy</a>
-			</li>
-			<li class="delete">
+			<li class="fboth delete separator">
 				<a href="#delete">Delete</a>
 			</li>
 		</ul>
 		<script type="text/javascript" src="?res=js"></script> 
 		<script type="text/javascript">
 			// a function to toggle a checkbox
-			toggleCheckbox = function ( name) {
+			toggleCheckbox = function( name) {
 				if ( $('[name=' + name + ']').attr( 'checked' ) == true ) {
 					$('[name=' + name + ']').attr( 'checked', false );
 				} else {
 					$('[name=' + name + ']').attr( 'checked', true );
 				}
 			}
+			// file/folder specific actions
+			fileFunctions = function() {
+				if ( $("input:checkbox:checked.chkfolder").length > 0 ) {
+					bothFunctions();
+				} else {
+					$("li.ffile").show();
+					$("li.ffolder").hide();
+				}
+			}
+			folderFunctions = function() {
+				if ( $("input:checkbox:checked.chkfile").length > 0 ) {
+					bothFunctions();
+				} else {
+					$("li.ffolder").show();
+					$("li.ffile").hide();
+				}
+			}
+			// indifferent functions for files/folders
+			bothFunctions = function() {
+				$("li.ffolder").hide();
+				$("li.ffile").hide();
+			}
+			
 			$(document).ready( function() {
-				
-				// binding functions
+				// bind files
 				$("li.file").bind( 'click', function() {
-					$(this).toggleClass("sel");
+					$(this).toggleClass('sel');
 					toggleCheckbox( $(this).attr( 'id' ) );
+					fileFunctions();
 				});
+				// bind folders
 				$("li.folder").bind( 'click', function() {
-					$(this).toggleClass("sel");
+					$(this).toggleClass('sel');
 					toggleCheckbox( $(this).attr( 'id' ) );
+					folderFunctions();
 				});
-				
-				$(".file").contextMenu({
-					menu: 'file_menu'
+				// context menu
+				$("li").contextMenu({
+					menu: 'context_menu'
 				},
 					function(action, el, pos) {
-					alert(
-						'Action: ' + action + "\n\n" +
-						'Element ID: ' + $(el).attr("id") + "\n\n" +
-						'X: ' + pos.x + '  Y: ' + pos.y + " (relative to element)\n\n" +
-						'X: ' + pos.docX + '  Y: ' + pos.docY+ " (relative to document)"
-						);
+						if ( $("input:checkbox:checked").length > 0 ) {
+							
+						} else {
+							alert( 'You have to select something!' );
+						}
 				});
+				// return key for folder browsing
+				// select a folder, hit enter/return
+				jQuery(document).bind('keydown', 'return',function (evt){
+                    if ( $("input:checkbox:checked.chkfolder").length == 1 && $("input:checkbox:checked.chkfile").length == 0 ) {
+						folder = $("input:checkbox:checked.chkfolder")
+						redi = $("a[title=" + folder.attr("name") + "]").attr( 'href' );
+						window.location.href = redi;
+					}
+                    return false;
+                });
 			});
 		</script>
 	</body>
