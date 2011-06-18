@@ -23,6 +23,7 @@ if ( isset( $_GET['res'] ) ) {
 			echo ".contextMenu LI.cut A { background-image: url(?res=cut); } \r\n";
 			echo ".contextMenu LI.copy A { background-image: url(?res=copy); } \r\n";
 			echo ".contextMenu LI.compress A { background-image: url(?res=compress); } \r\n";
+			echo ".contextMenu LI.cross A { background-image: url(?res=cross); } \r\n";
 			echo "\r\n";
 			break;
 		case 'js':
@@ -61,6 +62,14 @@ if ( isset( $_GET['res'] ) ) {
 		case 'compress':
 			header( 'Content-Type: image/png' );
 			echo base64_decode( "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAKQSURBVDjLbZNNaJxVFIafe7/5KTPzpUloNK0tIsowCtbiQgRRQReudCMVqYrdiLgQ01UrWUgXXZQumoU2myyKii66dOFCEUo3IiL+VRMFHactYpsMmsy0mbnnx8X8tEn7wuHAudyH97zcG9wdgKWl9zNgl7vvrVar51T1PndHVQHDzBCRFGNhqd1ePXb06PF1gALAhbONF+7PanPtymtP9G2iVK3WmJjYibtjZuNupsWVlYtviaRTwABw4WzjEPDRVGMy/vt3QLpCu73G2toqZoKZE2Mkz3PyfBKxgKplDFUA3rz7wL5Y2lnigdrHiDhuRlaoYJslrv3cWb7cfehka/3BxUY93+EGqolbAU/tqz+K2V/MzFQAHZYQ4146v55v/NPd81UxL6uKQgyY2RgQB025fOUPCC9COAjhJVqt38BlcKpKb/M65kbq9YfB3nQAGOVSxqXWCXDBSZTLBWAAMDOKsYibYURE0naAMjOzC5gc2Pc0vDwApJTQGx3UDJHNLQ7GK1xq/Q7hFQivQjzMn82LY4CqhiwWw8BBQNW2OxBK5Yxm812whNNnx5YVtBBkoxICkLqYbcugt9Fh9+xj4/RHtblxA7EMVZsOYZC+qqMqWwBHfvr829OjgRNIWkIsIhb54cr+r7Ms+3Bqanr0GjHzm4AnDy8vAAujwfz83NTs7O7z3W7nYTOjH3uPp7RuWZYNHdhtDrZIVda/8+fPWa06nfWvfjJxdfFTEd2zvPzLZyn1CCHSrx954/UPWi8DC2H0G2/VM8ebzeceqd375fer/9WvnTgDVET0oLsWzJDmPe/lzx64K//ix43WHQH1t1fmgLkC/TNPy8lFM4vuWhGx6G72TXX+UAqVd4DT/wMfm3vSJoP5ygAAAABJRU5ErkJggg==" );
+			break;
+		case 'notavail':
+			header( 'Content-Type: image/png' );
+			echo base64_decode( "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAHdSURBVDjLpZNraxpBFIb3a0ggISmmNISWXmOboKihxpgUNGWNSpvaS6RpKL3Ry//Mh1wgf6PElaCyzq67O09nVjdVlJbSDy8Lw77PmfecMwZg/I/GDw3DCo8HCkZl/RlgGA0e3Yfv7+DbAfLrW+SXOvLTG+SHV/gPbuMZRnsyIDL/OASziMxkkKkUQTJJsLaGn8/iHz6nd+8mQv87Ahg2H9Th/BxZqxEkEgSrq/iVCvLsDK9awtvfxb2zjD2ARID+lVVlbabTgWYTv1rFL5fBUtHbbeTJCb3EQ3ovCnRC6xAgzJtOE+ztheYIEkqbFaS3vY2zuIj77AmtYYDusPy8/zuvunJkDKXM7tYWTiyGWFjAqeQnAD6+7ueNx/FLpRGAru7mcoj5ebqzszil7DggeF/DX1nBN82rzPqrzbRayIsLhJqMPT2N83Sdy2GApwFqRN7jFPL0tF+10cDd3MTZ2AjNUkGCoyO6y9cRxfQowFUbpufr1ct4ZoHg+Dg067zduTmEbq4yi/UkYidDe+kaTcP4ObJIajksPd/eyx3c+N2rvPbMDPbUFPZSLKzcGjKPrbJaDsu+dQO3msfZzeGY2TCvKGYQhdSYeeJjUt21dIcjXQ7U7Kv599f4j/oF55W4g/2e3b8AAAAASUVORK5CYII=" );
+			break;
+		case 'cross':
+			header( 'Content-Type: image/png' );
+			echo base64_decode( "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIhSURBVDjLlZPrThNRFIWJicmJz6BWiYbIkYDEG0JbBiitDQgm0PuFXqSAtKXtpE2hNuoPTXwSnwtExd6w0pl2OtPlrphKLSXhx07OZM769qy19wwAGLhM1ddC184+d18QMzoq3lfsD3LZ7Y3XbE5DL6Atzuyilc5Ciyd7IHVfgNcDYTQ2tvDr5crn6uLSvX+Av2Lk36FFpSVENDe3OxDZu8apO5rROJDLo30+Nlvj5RnTlVNAKs1aCVFr7b4BPn6Cls21AWgEQlz2+Dl1h7IdA+i97A/geP65WhbmrnZZ0GIJpr6OqZqYAd5/gJpKox4Mg7pD2YoC2b0/54rJQuJZdm6Izcgma4TW1WZ0h+y8BfbyJMwBmSxkjw+VObNanp5h/adwGhaTXF4NWbLj9gEONyCmUZmd10pGgf1/vwcgOT3tUQE0DdicwIod2EmSbwsKE1P8QoDkcHPJ5YESjgBJkYQpIEZ2KEB51Y6y3ojvY+P8XEDN7uKS0w0ltA7QGCWHCxSWWpwyaCeLy0BkA7UXyyg8fIzDoWHeBaDN4tQdSvAVdU1Aok+nsNTipIEVnkywo/FHatVkBoIhnFisOBoZxcGtQd4B0GYJNZsDSiAEadUBCkstPtN3Avs2Msa+Dt9XfxoFSNYF/Bh9gP0bOqHLAm2WUF1YQskwrVFYPWkf3h1iXwbvqGfFPSGW9Eah8HSS9fuZDnS32f71m8KFY7xs/QZyu6TH2+2+FAAAAABJRU5ErkJggg==" );
 			break;
 		case 'delete':
 			header( 'Content-Type: image/png' );
@@ -166,46 +175,44 @@ if ( $handle = opendir( $root_cd ) ) {
 	<body>
 		<h1>Pholder</h1>
 		<h2>/<?php echo $cd; ?></h2>
-		<form action="?req" method="post">
-			<ul>
-				<?php if ( $cd != null ) { ?> <li><a href="?cd=<?php echo $up; ?>">Up a directory</a></li> <?php } ?>
-				<?php $a = false; ?>
-				<?php foreach ( $folders as $folder => $info ) { ?>
-					<?php
-						if ( $a == false ) { 
-							$a = true;
-						} else {
-							$a = false;
-						}
-					?>
-					<li class="folder <?php if ( $a == true ) { echo ' alt'; } ?>" id="folder[<?php echo $info[0]; ?>]">
-					<img src="?res=fo" alt="folder" class="ico" />
-						<input type="checkbox" name="folder[<?php echo $info[0]; ?>]" class="chkfolder" />
-						<a href="?cd=<?php echo $info[1]; ?>" title="folder[<?php echo $info[0]; ?>]">
-							<?php echo $folder; ?></a> - 
-							<?php echo $info[2]; ?> - 
-							<?php echo date( "F d Y H:i:s.", $info[3] ); ?>
-					</li>
-				<?php } ?>
-				<?php foreach ( $files as $file => $info ) { ?>
-					<?php
-						if ( $a == false ) { 
-							$a = true;
-						} else {
-							$a = false;
-						}
-					?>
-					<li class="file<?php if ( $a == true ) { echo ' alt'; } ?>" id="file[<?php echo $info[0]; ?>]">
-						<img src="?res=fi" alt="file" class="ico" />
-						<input type="checkbox" name="file[<?php echo $info[0]; ?>]" class="chkfile" />
-						<?php echo $file; ?> - 
-						(<?php echo $info[1]; ?> KB) - 
+		<ul>
+			<?php if ( $cd != null ) { ?> <li><a id="cd" href="?cd=<?php echo $up; ?>">Up a directory</a></li> <?php } ?>
+			<?php $a = false; ?>
+			<?php foreach ( $folders as $folder => $info ) { ?>
+				<?php
+					if ( $a == false ) { 
+						$a = true;
+					} else {
+						$a = false;
+					}
+				?>
+				<li class="folder list <?php if ( $a == true ) { echo ' alt'; } ?>" id="folder[<?php echo $info[0]; ?>]">
+				<img src="?res=fo" alt="folder" class="ico" />
+					<input type="checkbox" name="folder[<?php echo $info[0]; ?>]" class="chkfolder" />
+					<a href="?cd=<?php echo $info[1]; ?>" title="folder[<?php echo $info[0]; ?>]">
+						<?php echo $folder; ?></a> - 
 						<?php echo $info[2]; ?> - 
 						<?php echo date( "F d Y H:i:s.", $info[3] ); ?>
-					</li>
-				<?php } ?>
-			</ul>
-		</form>
+				</li>
+			<?php } ?>
+			<?php foreach ( $files as $file => $info ) { ?>
+				<?php
+					if ( $a == false ) { 
+						$a = true;
+					} else {
+						$a = false;
+					}
+				?>
+				<li class="file list<?php if ( $a == true ) { echo ' alt'; } ?>" id="file[<?php echo $info[0]; ?>]">
+					<img src="?res=fi" alt="file" class="ico" />
+					<input type="checkbox" name="file[<?php echo $info[0]; ?>]" class="chkfile" />
+					<?php echo $file; ?> - 
+					(<?php echo $info[1]; ?> KB) - 
+					<?php echo $info[2]; ?> - 
+					<?php echo date( "F d Y H:i:s.", $info[3] ); ?>
+				</li>
+			<?php } ?>
+		</ul>
 		<p><small>Copyright &copy; 2011 Bheesham Persaud. Icons by <a href="http://www.famfamfam.com/">famfamfam</a>. <a href="http://www.jquery.com">jQuery 1.4.2</a>. <a href="http://abeautifulsite.net/blog/2008/09/jquery-context-menu-plugin/">jQuery Context Menu Plugin</a>. <a href="https://github.com/jeresig/jquery.hotkeys">jQuery Hotkeys Plugin</a>.</small></p>
 		<ul id="context_menu" class="contextMenu">
 			<li class="fboth perms">
@@ -221,10 +228,15 @@ if ( $handle = opendir( $root_cd ) ) {
 				<a href="#delete">Delete</a>
 			</li>
 		</ul>
+		<ul id="not_context_menu" class="contextMenu">
+			<li class="cross">
+				<a href="#cross">N/A</a>
+			</li>
+		</ul>
 		<script type="text/javascript" src="?res=js"></script> 
 		<script type="text/javascript">
 			// a function to toggle a checkbox
-			toggleCheckbox = function( name) {
+			toggleCheckbox = function( name ) {
 				if ( $('[name=' + name + ']').attr( 'checked' ) == true ) {
 					$('[name=' + name + ']').attr( 'checked', false );
 				} else {
@@ -254,6 +266,28 @@ if ( $handle = opendir( $root_cd ) ) {
 				$("li.ffile").hide();
 			}
 			
+			showContext = function() {
+				$("li.list").destroyContextMenu();
+				$("li.list").contextMenu({
+						menu: 'context_menu'
+					},
+						function(action, el, pos) {
+							return false;
+				});
+				return false;
+			}
+			
+			hideContext = function() {
+				$("li.list").destroyContextMenu();
+				$("li.list").contextMenu({
+						menu: 'not_context_menu'
+					},
+						function(action, el, pos) {
+							return false;
+				});
+				return false;
+			}
+			
 			$(document).ready( function() {
 				// bind files
 				$("li.file").bind( 'click', function() {
@@ -267,23 +301,35 @@ if ( $handle = opendir( $root_cd ) ) {
 					toggleCheckbox( $(this).attr( 'id' ) );
 					folderFunctions();
 				});
-				// context menu
-				$("li").contextMenu({
-					menu: 'context_menu'
-				},
-					function(action, el, pos) {
-						if ( $("input:checkbox:checked").length > 0 ) {
-							
-						} else {
-							alert( 'You have to select something!' );
-						}
+				// bind context menu
+				$("li.list").bind( 'click', function() {
+					if ( $("input:checkbox:checked").length == 0 )
+					{
+						hideContext();
+					} else {
+						showContext();
+					}
+				});
+				// default context menu
+				hideContext();
+				// uncheck files and folders
+				$("input:checkbox:checked").attr( 'checked', false );
+				// backspace for folder browsing
+				// when not in the root folder, press backspace to go up a folder
+				jQuery(document).bind( 'keydown', 'backspace', function ( evt ){
+					if ( typeof $("#cd").attr( 'href' ) != "undefined" ) {
+						redi = $("#cd").attr( 'href' );
+						window.location.href = redi;
+					}
+					return false;
 				});
 				// return key for folder browsing
 				// select a folder, hit enter/return
-				jQuery(document).bind('keydown', 'return',function (evt){
+				jQuery(document).bind( 'keydown', 'return', function ( evt ){
                     if ( $("input:checkbox:checked.chkfolder").length == 1 && $("input:checkbox:checked.chkfile").length == 0 ) {
 						folder = $("input:checkbox:checked.chkfolder")
 						redi = $("a[title=" + folder.attr("name") + "]").attr( 'href' );
+						$("input:checkbox:checked").attr( 'checked', false );
 						window.location.href = redi;
 					}
                     return false;
