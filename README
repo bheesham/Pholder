@@ -7,7 +7,8 @@ Instructions:
 
 Features:
 	File browser
-	Hotkey
+	View contents of file
+	Hotkeys
 
 Hotkey:
 	<return>		-	Select a folder, hit <return>, be redirected.

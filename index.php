@@ -2,6 +2,31 @@
 // Copyright (C) 2011 Bheesham Persaud.
 // License available in LICENSE.
 
+// config
+$editable_files = array(
+					'htaccess', 'txt', 'php', 'phps', 'htm', 'html', 'js', 'css','properties', 
+					'sql', 'csv', 'md', 'yml', 'conf', 'ini', 'cfg', null
+				);
+
+if ( isset( $_GET['ajax'] ) ) {
+	header( 'Content-Type: text/plain' );
+	if ( isset( $_GET['get_file_contents'] ) ) {
+		if ( file_exists( $_GET['get_file_contents'] ) ) {
+			$fp = fopen( $_GET['get_file_contents'], 'rb' ); 
+			while ( $conts = fgets( $fp ) ) { 
+				echo $conts; 
+			} 
+			fclose( $fp );
+		} else {
+			echo 'That file does not exist!';
+		}
+	}
+	if ( isset( $_GET['save_file_contents'] ) ) {
+		
+	}
+	exit;
+}
+
 // request a resource
 if ( isset( $_GET['res'] ) ) {
 	switch( $_GET['res'] ) {
@@ -14,10 +39,13 @@ if ( isset( $_GET['res'] ) ) {
 			echo "li.sel { background-color: #58ACFA; } \r\n";
 			echo "img.ico, input.ico { padding-top: 2px; } \r\n";
 			echo "ul, p { margin: 0px; padding: 0px; } \r\n";
+			echo "img { border: none; } \r\n";
+			echo "div.bigBox { display: none; width: 100%; height: 100%; position: absolute; top: 0px; left: 0px; background-color: #FFF; margin: 0px; padding: 0px; } \r\n";
+			echo "div.conBox { background-color: #000; width: 100%; height: 100%; margin-right: auto; margin-left: auto; margin: 0px; padding: 0px;} \r\n";
+			echo "p.fileName { color: #FFFFFF; } \r\n";
 			// jQuery Context Menu Plugin - http://abeautifulsite.net/blog/2008/09/jquery-context-menu-plugin/
 			echo base64_decode( "LyogR2VuZXJpYyBjb250ZXh0IG1lbnUgc3R5bGVzICovDQouY29udGV4dE1lbnUgew0KCXBvc2l0aW9uOiBhYnNvbHV0ZTsNCgl3aWR0aDogMTIwcHg7DQoJei1pbmRleDogOTk5OTk7DQoJYm9yZGVyOiBzb2xpZCAxcHggI0NDQzsNCgliYWNrZ3JvdW5kOiAjRUVFOw0KCXBhZGRpbmc6IDBweDsNCgltYXJnaW46IDBweDsNCglkaXNwbGF5OiBub25lOw0KfQ0KDQouY29udGV4dE1lbnUgTEkgew0KCWxpc3Qtc3R5bGU6IG5vbmU7DQoJcGFkZGluZzogMHB4Ow0KCW1hcmdpbjogMHB4Ow0KfQ0KDQouY29udGV4dE1lbnUgQSB7DQoJY29sb3I6ICMzMzM7DQoJdGV4dC1kZWNvcmF0aW9uOiBub25lOw0KCWRpc3BsYXk6IGJsb2NrOw0KCWxpbmUtaGVpZ2h0OiAyMHB4Ow0KCWhlaWdodDogMjBweDsNCgliYWNrZ3JvdW5kLXBvc2l0aW9uOiA2cHggY2VudGVyOw0KCWJhY2tncm91bmQtcmVwZWF0OiBuby1yZXBlYXQ7DQoJb3V0bGluZTogbm9uZTsNCglwYWRkaW5nOiAxcHggNXB4Ow0KCXBhZGRpbmctbGVmdDogMjhweDsNCn0NCg0KLmNvbnRleHRNZW51IExJLmhvdmVyIEEgew0KCWNvbG9yOiAjRkZGOw0KCWJhY2tncm91bmQtY29sb3I6ICMzMzk5RkY7DQp9DQoNCi5jb250ZXh0TWVudSBMSS5kaXNhYmxlZCBBIHsNCgljb2xvcjogI0FBQTsNCgljdXJzb3I6IGRlZmF1bHQ7DQp9DQoNCi5jb250ZXh0TWVudSBMSS5ob3Zlci5kaXNhYmxlZCBBIHsNCgliYWNrZ3JvdW5kLWNvbG9yOiB0cmFuc3BhcmVudDsNCn0NCg0KLmNvbnRleHRNZW51IExJLnNlcGFyYXRvciB7DQoJYm9yZGVyLXRvcDogc29saWQgMXB4ICNDQ0M7DQp9" );
 			// Icons for the Context Menu
-			echo ".contextMenu LI.edit A { background-image: url(?res=edit); } \r\n";
 			echo ".contextMenu LI.delete A { background-image: url(?res=delete); } \r\n";
 			echo ".contextMenu LI.perms A { background-image: url(?res=perms); } \r\n";
 			echo ".contextMenu LI.cut A { background-image: url(?res=cut); } \r\n";
@@ -34,6 +62,8 @@ if ( isset( $_GET['res'] ) ) {
 			echo base64_decode( "Ly8galF1ZXJ5IENvbnRleHQgTWVudSBQbHVnaW4NCi8vDQovLyBWZXJzaW9uIDEuMDENCi8vDQovLyBDb3J5IFMuTi4gTGFWaXNrYQ0KLy8gQSBCZWF1dGlmdWwgU2l0ZSAoaHR0cDovL2FiZWF1dGlmdWxzaXRlLm5ldC8pDQovLw0KLy8gTW9yZSBpbmZvOiBodHRwOi8vYWJlYXV0aWZ1bHNpdGUubmV0LzIwMDgvMDkvanF1ZXJ5LWNvbnRleHQtbWVudS1wbHVnaW4vDQovLw0KLy8gVGVybXMgb2YgVXNlDQovLw0KLy8gVGhpcyBwbHVnaW4gaXMgZHVhbC1saWNlbnNlZCB1bmRlciB0aGUgR05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2UNCi8vICAgYW5kIHRoZSBNSVQgTGljZW5zZSBhbmQgaXMgY29weXJpZ2h0IEEgQmVhdXRpZnVsIFNpdGUsIExMQy4NCi8vDQppZihqUXVlcnkpKCBmdW5jdGlvbigpIHsNCgkkLmV4dGVuZCgkLmZuLCB7DQoJCQ0KCQljb250ZXh0TWVudTogZnVuY3Rpb24obywgY2FsbGJhY2spIHsNCgkJCS8vIERlZmF1bHRzDQoJCQlpZiggby5tZW51ID09IHVuZGVmaW5lZCApIHJldHVybiBmYWxzZTsNCgkJCWlmKCBvLmluU3BlZWQgPT0gdW5kZWZpbmVkICkgby5pblNwZWVkID0gMTUwOw0KCQkJaWYoIG8ub3V0U3BlZWQgPT0gdW5kZWZpbmVkICkgby5vdXRTcGVlZCA9IDc1Ow0KCQkJLy8gMCBuZWVkcyB0byBiZSAtMSBmb3IgZXhwZWN0ZWQgcmVzdWx0cyAobm8gZmFkZSkNCgkJCWlmKCBvLmluU3BlZWQgPT0gMCApIG8uaW5TcGVlZCA9IC0xOw0KCQkJaWYoIG8ub3V0U3BlZWQgPT0gMCApIG8ub3V0U3BlZWQgPSAtMTsNCgkJCS8vIExvb3AgZWFjaCBjb250ZXh0IG1lbnUNCgkJCSQodGhpcykuZWFjaCggZnVuY3Rpb24oKSB7DQoJCQkJdmFyIGVsID0gJCh0aGlzKTsNCgkJCQl2YXIgb2Zmc2V0ID0gJChlbCkub2Zmc2V0KCk7DQoJCQkJLy8gQWRkIGNvbnRleHRNZW51IGNsYXNzDQoJCQkJJCgnIycgKyBvLm1lbnUpLmFkZENsYXNzKCdjb250ZXh0TWVudScpOw0KCQkJCS8vIFNpbXVsYXRlIGEgdHJ1ZSByaWdodCBjbGljaw0KCQkJCSQodGhpcykubW91c2Vkb3duKCBmdW5jdGlvbihlKSB7DQoJCQkJCXZhciBldnQgPSBlOw0KCQkJCQlldnQuc3RvcFByb3BhZ2F0aW9uKCk7DQoJCQkJCSQodGhpcykubW91c2V1cCggZnVuY3Rpb24oZSkgew0KCQkJCQkJZS5zdG9wUHJvcGFnYXRpb24oKTsNCgkJCQkJCXZhciBzcmNFbGVtZW50ID0gJCh0aGlzKTsNCgkJCQkJCSQodGhpcykudW5iaW5kKCdtb3VzZXVwJyk7DQoJCQkJCQlpZiggZXZ0LmJ1dHRvbiA9PSAyICkgew0KCQkJCQkJCS8vIEhpZGUgY29udGV4dCBtZW51cyB0aGF0IG1heSBiZSBzaG93aW5nDQoJCQkJCQkJJCgiLmNvbnRleHRNZW51IikuaGlkZSgpOw0KCQkJCQkJCS8vIEdldCB0aGlzIGNvbnRleHQgbWVudQ0KCQkJCQkJCXZhciBtZW51ID0gJCgnIycgKyBvLm1lbnUpOw0KCQkJCQkJCQ0KCQkJCQkJCWlmKCAkKGVsKS5oYXNDbGFzcygnZGlzYWJsZWQnKSApIHJldHVybiBmYWxzZTsNCgkJCQkJCQkNCgkJCQkJCQkvLyBEZXRlY3QgbW91c2UgcG9zaXRpb24NCgkJCQkJCQl2YXIgZCA9IHt9LCB4LCB5Ow0KCQkJCQkJCWlmKCBzZWxmLmlubmVySGVpZ2h0ICkgew0KCQkJCQkJCQlkLnBhZ2VZT2Zmc2V0ID0gc2VsZi5wYWdlWU9mZnNldDsNCgkJCQkJCQkJZC5wYWdlWE9mZnNldCA9IHNlbGYucGFnZVhPZmZzZXQ7DQoJCQkJCQkJCWQuaW5uZXJIZWlnaHQgPSBzZWxmLmlubmVySGVpZ2h0Ow0KCQkJCQkJCQlkLmlubmVyV2lkdGggPSBzZWxmLmlubmVyV2lkdGg7DQoJCQkJCQkJfSBlbHNlIGlmKCBkb2N1bWVudC5kb2N1bWVudEVsZW1lbnQgJiYNCgkJCQkJCQkJZG9jdW1lbnQuZG9jdW1lbnRFbGVtZW50LmNsaWVudEhlaWdodCApIHsNCgkJCQkJCQkJZC5wYWdlWU9mZnNldCA9IGRvY3VtZW50LmRvY3VtZW50RWxlbWVudC5zY3JvbGxUb3A7DQoJCQkJCQkJCWQucGFnZVhPZmZzZXQgPSBkb2N1bWVudC5kb2N1bWVudEVsZW1lbnQuc2Nyb2xsTGVmdDsNCgkJCQkJCQkJZC5pbm5lckhlaWdodCA9IGRvY3VtZW50LmRvY3VtZW50RWxlbWVudC5jbGllbnRIZWlnaHQ7DQoJCQkJCQkJCWQuaW5uZXJXaWR0aCA9IGRvY3VtZW50LmRvY3VtZW50RWxlbWVudC5jbGllbnRXaWR0aDsNCgkJCQkJCQl9IGVsc2UgaWYoIGRvY3VtZW50LmJvZHkgKSB7DQoJCQkJCQkJCWQucGFnZVlPZmZzZXQgPSBkb2N1bWVudC5ib2R5LnNjcm9sbFRvcDsNCgkJCQkJCQkJZC5wYWdlWE9mZnNldCA9IGRvY3VtZW50LmJvZHkuc2Nyb2xsTGVmdDsNCgkJCQkJCQkJZC5pbm5lckhlaWdodCA9IGRvY3VtZW50LmJvZHkuY2xpZW50SGVpZ2h0Ow0KCQkJCQkJCQlkLmlubmVyV2lkdGggPSBkb2N1bWVudC5ib2R5LmNsaWVudFdpZHRoOw0KCQkJCQkJCX0NCgkJCQkJCQkoZS5wYWdlWCkgPyB4ID0gZS5wYWdlWCA6IHggPSBlLmNsaWVudFggKyBkLnNjcm9sbExlZnQ7DQoJCQkJCQkJKGUucGFnZVkpID8geSA9IGUucGFnZVkgOiB5ID0gZS5jbGllbnRZICsgZC5zY3JvbGxUb3A7DQoJCQkJCQkJDQoJCQkJCQkJLy8gU2hvdyB0aGUgbWVudQ0KCQkJCQkJCSQoZG9jdW1lbnQpLnVuYmluZCgnY2xpY2snKTsNCgkJCQkJCQkkKG1lbnUpLmNzcyh7IHRvcDogeSwgbGVmdDogeCB9KS5mYWRlSW4oby5pblNwZWVkKTsNCgkJCQkJCQkvLyBIb3ZlciBldmVudHMNCgkJCQkJCQkkKG1lbnUpLmZpbmQoJ0EnKS5tb3VzZW92ZXIoIGZ1bmN0aW9uKCkgew0KCQkJCQkJCQkkKG1lbnUpLmZpbmQoJ0xJLmhvdmVyJykucmVtb3ZlQ2xhc3MoJ2hvdmVyJyk7DQoJCQkJCQkJCSQodGhpcykucGFyZW50KCkuYWRkQ2xhc3MoJ2hvdmVyJyk7DQoJCQkJCQkJfSkubW91c2VvdXQoIGZ1bmN0aW9uKCkgew0KCQkJCQkJCQkkKG1lbnUpLmZpbmQoJ0xJLmhvdmVyJykucmVtb3ZlQ2xhc3MoJ2hvdmVyJyk7DQoJCQkJCQkJfSk7DQoJCQkJCQkJDQoJCQkJCQkJLy8gS2V5Ym9hcmQNCgkJCQkJCQkkKGRvY3VtZW50KS5rZXlwcmVzcyggZnVuY3Rpb24oZSkgew0KCQkJCQkJCQlzd2l0Y2goIGUua2V5Q29kZSApIHsNCgkJCQkJCQkJCWNhc2UgMzg6IC8vIHVwDQoJCQkJCQkJCQkJaWYoICQobWVudSkuZmluZCgnTEkuaG92ZXInKS5zaXplKCkgPT0gMCApIHsNCgkJCQkJCQkJCQkJJChtZW51KS5maW5kKCdMSTpsYXN0JykuYWRkQ2xhc3MoJ2hvdmVyJyk7DQoJCQkJCQkJCQkJfSBlbHNlIHsNCgkJCQkJCQkJCQkJJChtZW51KS5maW5kKCdMSS5ob3ZlcicpLnJlbW92ZUNsYXNzKCdob3ZlcicpLnByZXZBbGwoJ0xJOm5vdCguZGlzYWJsZWQpJykuZXEoMCkuYWRkQ2xhc3MoJ2hvdmVyJyk7DQoJCQkJCQkJCQkJCWlmKCAkKG1lbnUpLmZpbmQoJ0xJLmhvdmVyJykuc2l6ZSgpID09IDAgKSAkKG1lbnUpLmZpbmQoJ0xJOmxhc3QnKS5hZGRDbGFzcygnaG92ZXInKTsNCgkJCQkJCQkJCQl9DQoJCQkJCQkJCQlicmVhazsNCgkJCQkJCQkJCWNhc2UgNDA6IC8vIGRvd24NCgkJCQkJCQkJCQlpZiggJChtZW51KS5maW5kKCdMSS5ob3ZlcicpLnNpemUoKSA9PSAwICkgew0KCQkJCQkJCQkJCQkkKG1lbnUpLmZpbmQoJ0xJOmZpcnN0JykuYWRkQ2xhc3MoJ2hvdmVyJyk7DQoJCQkJCQkJCQkJfSBlbHNlIHsNCgkJCQkJCQkJCQkJJChtZW51KS5maW5kKCdMSS5ob3ZlcicpLnJlbW92ZUNsYXNzKCdob3ZlcicpLm5leHRBbGwoJ0xJOm5vdCguZGlzYWJsZWQpJykuZXEoMCkuYWRkQ2xhc3MoJ2hvdmVyJyk7DQoJCQkJCQkJCQkJCWlmKCAkKG1lbnUpLmZpbmQoJ0xJLmhvdmVyJykuc2l6ZSgpID09IDAgKSAkKG1lbnUpLmZpbmQoJ0xJOmZpcnN0JykuYWRkQ2xhc3MoJ2hvdmVyJyk7DQoJCQkJCQkJCQkJfQ0KCQkJCQkJCQkJYnJlYWs7DQoJCQkJCQkJCQljYXNlIDEzOiAvLyBlbnRlcg0KCQkJCQkJCQkJCSQobWVudSkuZmluZCgnTEkuaG92ZXIgQScpLnRyaWdnZXIoJ2NsaWNrJyk7DQoJCQkJCQkJCQlicmVhazsNCgkJCQkJCQkJCWNhc2UgMjc6IC8vIGVzYw0KCQkJCQkJCQkJCSQoZG9jdW1lbnQpLnRyaWdnZXIoJ2NsaWNrJyk7DQoJCQkJCQkJCQlicmVhaw0KCQkJCQkJCQl9DQoJCQkJCQkJfSk7DQoJCQkJCQkJDQoJCQkJCQkJLy8gV2hlbiBpdGVtcyBhcmUgc2VsZWN0ZWQNCgkJCQkJCQkkKCcjJyArIG8ubWVudSkuZmluZCgnQScpLnVuYmluZCgnY2xpY2snKTsNCgkJCQkJCQkkKCcjJyArIG8ubWVudSkuZmluZCgnTEk6bm90KC5kaXNhYmxlZCkgQScpLmNsaWNrKCBmdW5jdGlvbigpIHsNCgkJCQkJCQkJJChkb2N1bWVudCkudW5iaW5kKCdjbGljaycpLnVuYmluZCgna2V5cHJlc3MnKTsNCgkJCQkJCQkJJCgiLmNvbnRleHRNZW51IikuaGlkZSgpOw0KCQkJCQkJCQkvLyBDYWxsYmFjaw0KCQkJCQkJCQlpZiggY2FsbGJhY2sgKSBjYWxsYmFjayggJCh0aGlzKS5hdHRyKCdocmVmJykuc3Vic3RyKDEpLCAkKHNyY0VsZW1lbnQpLCB7eDogeCAtIG9mZnNldC5sZWZ0LCB5OiB5IC0gb2Zmc2V0LnRvcCwgZG9jWDogeCwgZG9jWTogeX0gKTsNCgkJCQkJCQkJcmV0dXJuIGZhbHNlOw0KCQkJCQkJCX0pOw0KCQkJCQkJCQ0KCQkJCQkJCS8vIEhpZGUgYmluZGluZ3MNCgkJCQkJCQlzZXRUaW1lb3V0KCBmdW5jdGlvbigpIHsgLy8gRGVsYXkgZm9yIE1vemlsbGENCgkJCQkJCQkJJChkb2N1bWVudCkuY2xpY2soIGZ1bmN0aW9uKCkgew0KCQkJCQkJCQkJJChkb2N1bWVudCkudW5iaW5kKCdjbGljaycpLnVuYmluZCgna2V5cHJlc3MnKTsNCgkJCQkJCQkJCSQobWVudSkuZmFkZU91dChvLm91dFNwZWVkKTsNCgkJCQkJCQkJCXJldHVybiBmYWxzZTsNCgkJCQkJCQkJfSk7DQoJCQkJCQkJfSwgMCk7DQoJCQkJCQl9DQoJCQkJCX0pOw0KCQkJCX0pOw0KCQkJCQ0KCQkJCS8vIERpc2FibGUgdGV4dCBzZWxlY3Rpb24NCgkJCQlpZiggJC5icm93c2VyLm1vemlsbGEgKSB7DQoJCQkJCSQoJyMnICsgby5tZW51KS5lYWNoKCBmdW5jdGlvbigpIHsgJCh0aGlzKS5jc3MoeyAnTW96VXNlclNlbGVjdCcgOiAnbm9uZScgfSk7IH0pOw0KCQkJCX0gZWxzZSBpZiggJC5icm93c2VyLm1zaWUgKSB7DQoJCQkJCSQoJyMnICsgby5tZW51KS5lYWNoKCBmdW5jdGlvbigpIHsgJCh0aGlzKS5iaW5kKCdzZWxlY3RzdGFydC5kaXNhYmxlVGV4dFNlbGVjdCcsIGZ1bmN0aW9uKCkgeyByZXR1cm4gZmFsc2U7IH0pOyB9KTsNCgkJCQl9IGVsc2Ugew0KCQkJCQkkKCcjJyArIG8ubWVudSkuZWFjaChmdW5jdGlvbigpIHsgJCh0aGlzKS5iaW5kKCdtb3VzZWRvd24uZGlzYWJsZVRleHRTZWxlY3QnLCBmdW5jdGlvbigpIHsgcmV0dXJuIGZhbHNlOyB9KTsgfSk7DQoJCQkJfQ0KCQkJCS8vIERpc2FibGUgYnJvd3NlciBjb250ZXh0IG1lbnUgKHJlcXVpcmVzIGJvdGggc2VsZWN0b3JzIHRvIHdvcmsgaW4gSUUvU2FmYXJpICsgRkYvQ2hyb21lKQ0KCQkJCSQoZWwpLmFkZCgkKCdVTC5jb250ZXh0TWVudScpKS5iaW5kKCdjb250ZXh0bWVudScsIGZ1bmN0aW9uKCkgeyByZXR1cm4gZmFsc2U7IH0pOw0KCQkJCQ0KCQkJfSk7DQoJCQlyZXR1cm4gJCh0aGlzKTsNCgkJfSwNCgkJDQoJCS8vIERpc2FibGUgY29udGV4dCBtZW51IGl0ZW1zIG9uIHRoZSBmbHkNCgkJZGlzYWJsZUNvbnRleHRNZW51SXRlbXM6IGZ1bmN0aW9uKG8pIHsNCgkJCWlmKCBvID09IHVuZGVmaW5lZCApIHsNCgkJCQkvLyBEaXNhYmxlIGFsbA0KCQkJCSQodGhpcykuZmluZCgnTEknKS5hZGRDbGFzcygnZGlzYWJsZWQnKTsNCgkJCQlyZXR1cm4oICQodGhpcykgKTsNCgkJCX0NCgkJCSQodGhpcykuZWFjaCggZnVuY3Rpb24oKSB7DQoJCQkJaWYoIG8gIT0gdW5kZWZpbmVkICkgew0KCQkJCQl2YXIgZCA9IG8uc3BsaXQoJywnKTsNCgkJCQkJZm9yKCB2YXIgaSA9IDA7IGkgPCBkLmxlbmd0aDsgaSsrICkgew0KCQkJCQkJJCh0aGlzKS5maW5kKCdBW2hyZWY9IicgKyBkW2ldICsgJyJdJykucGFyZW50KCkuYWRkQ2xhc3MoJ2Rpc2FibGVkJyk7DQoJCQkJCQkNCgkJCQkJfQ0KCQkJCX0NCgkJCX0pOw0KCQkJcmV0dXJuKCAkKHRoaXMpICk7DQoJCX0sDQoJCQ0KCQkvLyBFbmFibGUgY29udGV4dCBtZW51IGl0ZW1zIG9uIHRoZSBmbHkNCgkJZW5hYmxlQ29udGV4dE1lbnVJdGVtczogZnVuY3Rpb24obykgew0KCQkJaWYoIG8gPT0gdW5kZWZpbmVkICkgew0KCQkJCS8vIEVuYWJsZSBhbGwNCgkJCQkkKHRoaXMpLmZpbmQoJ0xJLmRpc2FibGVkJykucmVtb3ZlQ2xhc3MoJ2Rpc2FibGVkJyk7DQoJCQkJcmV0dXJuKCAkKHRoaXMpICk7DQoJCQl9DQoJCQkkKHRoaXMpLmVhY2goIGZ1bmN0aW9uKCkgew0KCQkJCWlmKCBvICE9IHVuZGVmaW5lZCApIHsNCgkJCQkJdmFyIGQgPSBvLnNwbGl0KCcsJyk7DQoJCQkJCWZvciggdmFyIGkgPSAwOyBpIDwgZC5sZW5ndGg7IGkrKyApIHsNCgkJCQkJCSQodGhpcykuZmluZCgnQVtocmVmPSInICsgZFtpXSArICciXScpLnBhcmVudCgpLnJlbW92ZUNsYXNzKCdkaXNhYmxlZCcpOw0KCQkJCQkJDQoJCQkJCX0NCgkJCQl9DQoJCQl9KTsNCgkJCXJldHVybiggJCh0aGlzKSApOw0KCQl9LA0KCQkNCgkJLy8gRGlzYWJsZSBjb250ZXh0IG1lbnUocykNCgkJZGlzYWJsZUNvbnRleHRNZW51OiBmdW5jdGlvbigpIHsNCgkJCSQodGhpcykuZWFjaCggZnVuY3Rpb24oKSB7DQoJCQkJJCh0aGlzKS5hZGRDbGFzcygnZGlzYWJsZWQnKTsNCgkJCX0pOw0KCQkJcmV0dXJuKCAkKHRoaXMpICk7DQoJCX0sDQoJCQ0KCQkvLyBFbmFibGUgY29udGV4dCBtZW51KHMpDQoJCWVuYWJsZUNvbnRleHRNZW51OiBmdW5jdGlvbigpIHsNCgkJCSQodGhpcykuZWFjaCggZnVuY3Rpb24oKSB7DQoJCQkJJCh0aGlzKS5yZW1vdmVDbGFzcygnZGlzYWJsZWQnKTsNCgkJCX0pOw0KCQkJcmV0dXJuKCAkKHRoaXMpICk7DQoJCX0sDQoJCQ0KCQkvLyBEZXN0cm95IGNvbnRleHQgbWVudShzKQ0KCQlkZXN0cm95Q29udGV4dE1lbnU6IGZ1bmN0aW9uKCkgew0KCQkJLy8gRGVzdHJveSBzcGVjaWZpZWQgY29udGV4dCBtZW51cw0KCQkJJCh0aGlzKS5lYWNoKCBmdW5jdGlvbigpIHsNCgkJCQkvLyBEaXNhYmxlIGFjdGlvbg0KCQkJCSQodGhpcykudW5iaW5kKCdtb3VzZWRvd24nKS51bmJpbmQoJ21vdXNldXAnKTsNCgkJCX0pOw0KCQkJcmV0dXJuKCAkKHRoaXMpICk7DQoJCX0NCgkJDQoJfSk7DQp9KShqUXVlcnkpOw==" );
 			// jQuery Hotkeys Plugin - https://github.com/jeresig/jquery.hotkeys
 			echo base64_decode( "LyoKICogalF1ZXJ5IEhvdGtleXMgUGx1Z2luCiAqIENvcHlyaWdodCAyMDEwLCBKb2huIFJlc2lnCiAqIER1YWwgbGljZW5zZWQgdW5kZXIgdGhlIE1JVCBvciBHUEwgVmVyc2lvbiAyIGxpY2Vuc2VzLgogKgogKiBCYXNlZCB1cG9uIHRoZSBwbHVnaW4gYnkgVHp1cnkgQmFyIFlvY2hheToKICogaHR0cDovL2dpdGh1Yi5jb20vdHp1cnlieS9ob3RrZXlzCiAqCiAqIE9yaWdpbmFsIGlkZWEgYnk6CiAqIEJpbm55IFYgQSwgaHR0cDovL3d3dy5vcGVuanMuY29tL3NjcmlwdHMvZXZlbnRzL2tleWJvYXJkX3Nob3J0Y3V0cy8KKi8KCihmdW5jdGlvbihqUXVlcnkpewoJCglqUXVlcnkuaG90a2V5cyA9IHsKCQl2ZXJzaW9uOiAiMC44IiwKCgkJc3BlY2lhbEtleXM6IHsKCQkJODogImJhY2tzcGFjZSIsIDk6ICJ0YWIiLCAxMzogInJldHVybiIsIDE2OiAic2hpZnQiLCAxNzogImN0cmwiLCAxODogImFsdCIsIDE5OiAicGF1c2UiLAoJCQkyMDogImNhcHNsb2NrIiwgMjc6ICJlc2MiLCAzMjogInNwYWNlIiwgMzM6ICJwYWdldXAiLCAzNDogInBhZ2Vkb3duIiwgMzU6ICJlbmQiLCAzNjogImhvbWUiLAoJCQkzNzogImxlZnQiLCAzODogInVwIiwgMzk6ICJyaWdodCIsIDQwOiAiZG93biIsIDQ1OiAiaW5zZXJ0IiwgNDY6ICJkZWwiLCAKCQkJOTY6ICIwIiwgOTc6ICIxIiwgOTg6ICIyIiwgOTk6ICIzIiwgMTAwOiAiNCIsIDEwMTogIjUiLCAxMDI6ICI2IiwgMTAzOiAiNyIsCgkJCTEwNDogIjgiLCAxMDU6ICI5IiwgMTA2OiAiKiIsIDEwNzogIisiLCAxMDk6ICItIiwgMTEwOiAiLiIsIDExMSA6ICIvIiwgCgkJCTExMjogImYxIiwgMTEzOiAiZjIiLCAxMTQ6ICJmMyIsIDExNTogImY0IiwgMTE2OiAiZjUiLCAxMTc6ICJmNiIsIDExODogImY3IiwgMTE5OiAiZjgiLCAKCQkJMTIwOiAiZjkiLCAxMjE6ICJmMTAiLCAxMjI6ICJmMTEiLCAxMjM6ICJmMTIiLCAxNDQ6ICJudW1sb2NrIiwgMTQ1OiAic2Nyb2xsIiwgMTkxOiAiLyIsIDIyNDogIm1ldGEiCgkJfSwKCQoJCXNoaWZ0TnVtczogewoJCQkiYCI6ICJ+IiwgIjEiOiAiISIsICIyIjogIkAiLCAiMyI6ICIjIiwgIjQiOiAiJCIsICI1IjogIiUiLCAiNiI6ICJeIiwgIjciOiAiJiIsIAoJCQkiOCI6ICIqIiwgIjkiOiAiKCIsICIwIjogIikiLCAiLSI6ICJfIiwgIj0iOiAiKyIsICI7IjogIjogIiwgIiciOiAiXCIiLCAiLCI6ICI8IiwgCgkJCSIuIjogIj4iLCAgIi8iOiAiPyIsICAiXFwiOiAifCIKCQl9Cgl9OwoKCWZ1bmN0aW9uIGtleUhhbmRsZXIoIGhhbmRsZU9iaiApIHsKCQkvLyBPbmx5IGNhcmUgd2hlbiBhIHBvc3NpYmxlIGlucHV0IGhhcyBiZWVuIHNwZWNpZmllZAoJCWlmICggdHlwZW9mIGhhbmRsZU9iai5kYXRhICE9PSAic3RyaW5nIiApIHsKCQkJcmV0dXJuOwoJCX0KCQkKCQl2YXIgb3JpZ0hhbmRsZXIgPSBoYW5kbGVPYmouaGFuZGxlciwKCQkJa2V5cyA9IGhhbmRsZU9iai5kYXRhLnRvTG93ZXJDYXNlKCkuc3BsaXQoIiAiKTsKCQoJCWhhbmRsZU9iai5oYW5kbGVyID0gZnVuY3Rpb24oIGV2ZW50ICkgewoJCQkvLyBEb24ndCBmaXJlIGluIHRleHQtYWNjZXB0aW5nIGlucHV0cyB0aGF0IHdlIGRpZG4ndCBkaXJlY3RseSBiaW5kIHRvCgkJCWlmICggdGhpcyAhPT0gZXZlbnQudGFyZ2V0ICYmICgvdGV4dGFyZWF8c2VsZWN0L2kudGVzdCggZXZlbnQudGFyZ2V0Lm5vZGVOYW1lICkgfHwKCQkJCSBldmVudC50YXJnZXQudHlwZSA9PT0gInRleHQiKSApIHsKCQkJCXJldHVybjsKCQkJfQoJCQkKCQkJLy8gS2V5cHJlc3MgcmVwcmVzZW50cyBjaGFyYWN0ZXJzLCBub3Qgc3BlY2lhbCBrZXlzCgkJCXZhciBzcGVjaWFsID0gZXZlbnQudHlwZSAhPT0gImtleXByZXNzIiAmJiBqUXVlcnkuaG90a2V5cy5zcGVjaWFsS2V5c1sgZXZlbnQud2hpY2ggXSwKCQkJCWNoYXJhY3RlciA9IFN0cmluZy5mcm9tQ2hhckNvZGUoIGV2ZW50LndoaWNoICkudG9Mb3dlckNhc2UoKSwKCQkJCWtleSwgbW9kaWYgPSAiIiwgcG9zc2libGUgPSB7fTsKCgkJCS8vIGNoZWNrIGNvbWJpbmF0aW9ucyAoYWx0fGN0cmx8c2hpZnQrYW55dGhpbmcpCgkJCWlmICggZXZlbnQuYWx0S2V5ICYmIHNwZWNpYWwgIT09ICJhbHQiICkgewoJCQkJbW9kaWYgKz0gImFsdCsiOwoJCQl9CgoJCQlpZiAoIGV2ZW50LmN0cmxLZXkgJiYgc3BlY2lhbCAhPT0gImN0cmwiICkgewoJCQkJbW9kaWYgKz0gImN0cmwrIjsKCQkJfQoJCQkKCQkJLy8gVE9ETzogTmVlZCB0byBtYWtlIHN1cmUgdGhpcyB3b3JrcyBjb25zaXN0ZW50bHkgYWNyb3NzIHBsYXRmb3JtcwoJCQlpZiAoIGV2ZW50Lm1ldGFLZXkgJiYgIWV2ZW50LmN0cmxLZXkgJiYgc3BlY2lhbCAhPT0gIm1ldGEiICkgewoJCQkJbW9kaWYgKz0gIm1ldGErIjsKCQkJfQoKCQkJaWYgKCBldmVudC5zaGlmdEtleSAmJiBzcGVjaWFsICE9PSAic2hpZnQiICkgewoJCQkJbW9kaWYgKz0gInNoaWZ0KyI7CgkJCX0KCgkJCWlmICggc3BlY2lhbCApIHsKCQkJCXBvc3NpYmxlWyBtb2RpZiArIHNwZWNpYWwgXSA9IHRydWU7CgoJCQl9IGVsc2UgewoJCQkJcG9zc2libGVbIG1vZGlmICsgY2hhcmFjdGVyIF0gPSB0cnVlOwoJCQkJcG9zc2libGVbIG1vZGlmICsgalF1ZXJ5LmhvdGtleXMuc2hpZnROdW1zWyBjaGFyYWN0ZXIgXSBdID0gdHJ1ZTsKCgkJCQkvLyAiJCIgY2FuIGJlIHRyaWdnZXJlZCBhcyAiU2hpZnQrNCIgb3IgIlNoaWZ0KyQiIG9yIGp1c3QgIiQiCgkJCQlpZiAoIG1vZGlmID09PSAic2hpZnQrIiApIHsKCQkJCQlwb3NzaWJsZVsgalF1ZXJ5LmhvdGtleXMuc2hpZnROdW1zWyBjaGFyYWN0ZXIgXSBdID0gdHJ1ZTsKCQkJCX0KCQkJfQoKCQkJZm9yICggdmFyIGkgPSAwLCBsID0ga2V5cy5sZW5ndGg7IGkgPCBsOyBpKysgKSB7CgkJCQlpZiAoIHBvc3NpYmxlWyBrZXlzW2ldIF0gKSB7CgkJCQkJcmV0dXJuIG9yaWdIYW5kbGVyLmFwcGx5KCB0aGlzLCBhcmd1bWVudHMgKTsKCQkJCX0KCQkJfQoJCX07Cgl9CgoJalF1ZXJ5LmVhY2goWyAia2V5ZG93biIsICJrZXl1cCIsICJrZXlwcmVzcyIgXSwgZnVuY3Rpb24oKSB7CgkJalF1ZXJ5LmV2ZW50LnNwZWNpYWxbIHRoaXMgXSA9IHsgYWRkOiBrZXlIYW5kbGVyIH07Cgl9KTsKCn0pKCBqUXVlcnkgKTs=" );
+			// jQuery URL Encode - http://plugins.jquery.com/project/URLEncode
+			echo base64_decode( "JC5leHRlbmQoe1VSTEVuY29kZTpmdW5jdGlvbihjKXt2YXIgbz0nJzt2YXIgeD0wO2M9Yy50b1N0cmluZygpO3ZhciByPS8oXlthLXpBLVowLTlfLl0qKS87DQogIHdoaWxlKHg8Yy5sZW5ndGgpe3ZhciBtPXIuZXhlYyhjLnN1YnN0cih4KSk7DQogICAgaWYobSE9bnVsbCAmJiBtLmxlbmd0aD4xICYmIG1bMV0hPScnKXtvKz1tWzFdO3grPW1bMV0ubGVuZ3RoOw0KICAgIH1lbHNle2lmKGNbeF09PScgJylvKz0nKyc7ZWxzZXt2YXIgZD1jLmNoYXJDb2RlQXQoeCk7dmFyIGg9ZC50b1N0cmluZygxNik7DQogICAgbys9JyUnKyhoLmxlbmd0aDwyPycwJzonJykraC50b1VwcGVyQ2FzZSgpO314Kys7fX1yZXR1cm4gbzt9LA0KVVJMRGVjb2RlOmZ1bmN0aW9uKHMpe3ZhciBvPXM7dmFyIGJpblZhbCx0O3ZhciByPS8oJVteJV17Mn0pLzsNCiAgd2hpbGUoKG09ci5leGVjKG8pKSE9bnVsbCAmJiBtLmxlbmd0aD4xICYmIG1bMV0hPScnKXtiPXBhcnNlSW50KG1bMV0uc3Vic3RyKDEpLDE2KTsNCiAgdD1TdHJpbmcuZnJvbUNoYXJDb2RlKGIpO289by5yZXBsYWNlKG1bMV0sdCk7fXJldHVybiBvO30NCn0pOw0K" );
 			break;
 		case 'fo':
 			header( 'Content-Type: image/png' );
@@ -77,6 +107,10 @@ if ( isset( $_GET['res'] ) ) {
 			break;
 	}
 	exit;
+}
+
+function get_file_ext( $file ) {
+	return pathinfo( $file, PATHINFO_EXTENSION );
 }
 
 // takes away the slash at the end
@@ -155,10 +189,11 @@ if ( $handle = opendir( $root_cd ) ) {
 				continue;
 			}
 			$files[ $file ] = array(
-									md5( $root_cd . $file ), # used for the name and id
-									filesize( $root_cd . $file ),
-									substr( sprintf( '%o', fileperms( $root_cd . $file ) ), -4 ),
-									fileatime( $root_cd . $file ),
+										md5( $root_cd . $file ), # used for the name and id
+										filesize( $root_cd . $file ),
+										substr( sprintf( '%o', fileperms( $root_cd . $file ) ), -4 ),
+										fileatime( $root_cd . $file ),
+										get_file_ext( $root_cd . $file )
 									);
 		}
     }
@@ -176,7 +211,7 @@ if ( $handle = opendir( $root_cd ) ) {
 		<h1>Pholder</h1>
 		<h2>/<?php echo $cd; ?></h2>
 		<ul>
-			<?php if ( $cd != null ) { ?> <li><a id="cd" href="?cd=<?php echo $up; ?>">Up a directory</a></li> <?php } ?>
+			<?php if ( $cd != null ) { ?> <li><a id="cd" href="?cd=<?php echo urlencode( $up ); ?>">Up a directory</a></li> <?php } ?>
 			<?php $a = false; ?>
 			<?php foreach ( $folders as $folder => $info ) { ?>
 				<?php
@@ -206,6 +241,7 @@ if ( $handle = opendir( $root_cd ) ) {
 				<li class="file list<?php if ( $a == true ) { echo ' alt'; } ?>" id="file[<?php echo $info[0]; ?>]">
 					<img src="?res=fi" alt="file" class="ico" />
 					<input type="checkbox" name="file[<?php echo $info[0]; ?>]" class="chkfile" />
+					<?php if ( in_array( $info[4], $editable_files ) ) { ?><img src="?res=edit" alt="edit" title="<?php echo $root_cd . $file; ?>" class="ico editbtn" /><?php } ?>
 					<?php echo $file; ?> - 
 					(<?php echo $info[1]; ?> KB) - 
 					<?php echo $info[2]; ?> - 
@@ -213,15 +249,19 @@ if ( $handle = opendir( $root_cd ) ) {
 				</li>
 			<?php } ?>
 		</ul>
-		<p><small>Copyright &copy; 2011 Bheesham Persaud. Icons by <a href="http://www.famfamfam.com/">famfamfam</a>. <a href="http://www.jquery.com">jQuery 1.4.2</a>. <a href="http://abeautifulsite.net/blog/2008/09/jquery-context-menu-plugin/">jQuery Context Menu Plugin</a>. <a href="https://github.com/jeresig/jquery.hotkeys">jQuery Hotkeys Plugin</a>.</small></p>
+		<p><small>
+			Copyright &copy; 2011 Bheesham Persaud. 
+			Icons by <a href="http://www.famfamfam.com/">famfamfam</a>. 
+			<a href="http://www.jquery.com">jQuery 1.4.2</a>. 
+			<a href="http://abeautifulsite.net/blog/2008/09/jquery-context-menu-plugin/">jQuery Context Menu Plugin</a>. 
+			<a href="https://github.com/jeresig/jquery.hotkeys">jQuery Hotkeys Plugin</a>.
+			<a href="http://plugins.jquery.com/project/URLEncode">jQuery URL Encode</a>.
+		</small></p>
 		<ul id="context_menu" class="contextMenu">
 			<li class="fboth perms">
 				<a href="#perms">Permissions</a>
 			</li>
-			<li class="ffile edit">
-				<a href="#edit">Edit</a>
-			</li>
-			<li class="ffolder compress separator">
+			<li class="fboth compress separator">
 				<a href="#compress">Compress</a>
 			</li>
 			<li class="fboth delete separator">
@@ -233,6 +273,17 @@ if ( $handle = opendir( $root_cd ) ) {
 				<a href="#cross">N/A</a>
 			</li>
 		</ul>
+		<div class="bigBox">
+			<div class="conBox">
+				<div id="fileEdit">
+					<p class="fileName"></p>
+					<textarea name="fileConts"></textarea>
+					<br />
+					<button name="fileSEdit">Save</button>
+					<button name="fileCEdit">Cancel</button>
+				</div>
+			</div>
+		</div>
 		<script type="text/javascript" src="?res=js"></script> 
 		<script type="text/javascript">
 			// a function to toggle a checkbox
@@ -265,7 +316,7 @@ if ( $handle = opendir( $root_cd ) ) {
 				$("li.ffolder").hide();
 				$("li.ffile").hide();
 			}
-			
+			// real context menu
 			showContext = function() {
 				$("li.list").destroyContextMenu();
 				$("li.list").contextMenu({
@@ -276,7 +327,7 @@ if ( $handle = opendir( $root_cd ) ) {
 				});
 				return false;
 			}
-			
+			// fake context menu
 			hideContext = function() {
 				$("li.list").destroyContextMenu();
 				$("li.list").contextMenu({
@@ -287,7 +338,50 @@ if ( $handle = opendir( $root_cd ) ) {
 				});
 				return false;
 			}
-			
+			// prepare BigBox
+			prepBigbox = function() {
+				var scrollTop = $(window).scrollTop();
+				$('body').css( 'z-index', -1 );
+				$('div.bigBox').css( 'top', scrollTop );
+				$('div.bigBox').css( 'width', $(window).width() );
+				$('div.bigBox').css( 'height', $(window).height() );
+				return false;
+			}
+			// show box
+			showBigbox = function() {
+				$('div.bigBox').show();
+			}
+			// hide box
+			hideBigbox = function() {
+				$("div.bigBox textarea").attr( 'value', '' );
+				$("div.bigBox input:text").attr( 'value', '' );
+				$("div.bigBox input:password").attr( 'value', '' );
+				$("div.bigBox input:checkbox").attr( 'checked', false );
+				$('div.bigBox').hide();
+			}
+			// open a file for editing
+			editOFile = function( name ) {
+				prepBigbox();
+				$("textarea[name=fileConts]").css( 'width', $(window).width()-10 );
+				$("textarea[name=fileConts]").css( 'height', $(window).height()-100 );
+				$("p.fileName").text( name );
+				$("textarea[name=fileConts]").attr( 'value', 'Loading...' );
+				$.ajax({
+					url: '?ajax=true&get_file_contents=' + $.URLEncode( name ),
+					success: function( data ) {
+						$("textarea[name=fileConts]").attr( 'value', data );
+					}
+				});
+				showBigbox();
+				return false;
+			}
+			// save a file
+			editSFile = function( name ) {
+				// get contents
+				// post
+				// results
+				return false;
+			}
 			$(document).ready( function() {
 				// bind files
 				$("li.file").bind( 'click', function() {
@@ -300,6 +394,24 @@ if ( $handle = opendir( $root_cd ) ) {
 					$(this).toggleClass('sel');
 					toggleCheckbox( $(this).attr( 'id' ) );
 					folderFunctions();
+				});
+				// bind file edit button
+				$("img.editbtn").bind( 'click', function() {
+					editOFile( $(this).attr( 'title' ) );
+					return false;
+				});
+				// bind file edit save button
+				$("button[name=fileSEdit]").bind( 'click', function() {
+					alert( 'saved!' );
+					$("textarea[name=fileConts]").text( '' );
+					hideBigbox();
+					return false;
+				});
+				// bind file edit cancel button
+				$("button[name=fileCEdit]").bind( 'click', function() {
+					$("textarea[name=fileConts]").text( '' );
+					hideBigbox();
+					return false;
 				});
 				// bind context menu
 				$("li.list").bind( 'click', function() {
@@ -314,6 +426,11 @@ if ( $handle = opendir( $root_cd ) ) {
 				hideContext();
 				// uncheck files and folders
 				$("input:checkbox:checked").attr( 'checked', false );
+				// for when the big box
+				jQuery(document).bind( 'keydown', 'esc', function ( evt ){
+                    hideBigbox();
+                    return false;
+                });
 				// backspace for folder browsing
 				// when not in the root folder, press backspace to go up a folder
 				jQuery(document).bind( 'keydown', 'backspace', function ( evt ){
