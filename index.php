@@ -22,7 +22,14 @@ if ( isset( $_GET['ajax'] ) ) {
 		}
 	}
 	if ( isset( $_GET['save_file_contents'] ) ) {
-		
+		if ( file_exists( $_GET['save_file_contents'] ) ) {
+			$handle = fopen( $_GET['save_file_contents'], 'wb' );
+			$contents = $_POST['contents'];
+			fwrite( $handle, $contents );
+			fclose( $fp );
+		} else {
+			echo 'That file does not exist!';
+		}
 	}
 	exit;
 }
@@ -376,10 +383,21 @@ if ( $handle = opendir( $root_cd ) ) {
 				return false;
 			}
 			// save a file
-			editSFile = function( name ) {
-				// get contents
-				// post
-				// results
+			editSFile = function() {
+				var name = $("p.fileName").text( name );
+				var conts = $("textarea[name=fileConts]").attr( 'value' );
+				$.ajax({
+					type: "POST",
+					url: "?ajax=true&save_file_contents=" + name,
+					data: "contents="+conts,
+					success: function(msg){
+						alert( 'Data saved.' );
+					},
+					error: function(msg){
+						alert( msg );
+					}
+				});
+				hideBigbox();
 				return false;
 			}
 			$(document).ready( function() {
@@ -402,9 +420,8 @@ if ( $handle = opendir( $root_cd ) ) {
 				});
 				// bind file edit save button
 				$("button[name=fileSEdit]").bind( 'click', function() {
-					alert( 'saved!' );
+					editSFile();
 					$("textarea[name=fileConts]").text( '' );
-					hideBigbox();
 					return false;
 				});
 				// bind file edit cancel button
