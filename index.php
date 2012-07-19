@@ -1,5 +1,5 @@
 <?php
-// Copyright (C) 2011 Bheesham Persaud.
+// Copyright (C) 2011 Bheesham Persaud <http://bheesham.com/>.
 // License available in LICENSE.
 
 // config
@@ -257,7 +257,7 @@ if ( $handle = opendir( $root_cd ) ) {
 			<?php } ?>
 		</ul>
 		<p><small>
-			Copyright &copy; 2011 Bheesham Persaud. 
+			Copyright &copy; 2012 <a href="http://bheesham.com/">Bheesham Persaud</a>. 
 			Icons by <a href="http://www.famfamfam.com/">famfamfam</a>. 
 			<a href="http://www.jquery.com">jQuery 1.4.2</a>. 
 			<a href="http://abeautifulsite.net/blog/2008/09/jquery-context-menu-plugin/">jQuery Context Menu Plugin</a>. 
